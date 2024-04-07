@@ -22,9 +22,7 @@ const yargsArgav = argv as YargsyargsArgav
 const noop = (x: string) => x;
 
 function getPackageJsonLocations(dirname: string) {
-    console.log({ skip: yargsArgav.skip })
     const skipLocations = (yargsArgav.skip || []).map((dir) => `!**/${dir}`)
-    console.log({ skipLocations })
     const pattern = ["**/package.json", "!**/node_modules/**", "!**/.*", ...skipLocations];
     const results: string[] = fg.sync(pattern, { cwd: dirname, absolute: true });
     return results.map((fileName) => path.join(dirname, fileName.replace(/\/package\.json$/, ""))).sort();
@@ -32,7 +30,6 @@ function getPackageJsonLocations(dirname: string) {
 
 function npmInstall(dir: string) {
     var exitCode = 0;
-    console.log({ dir })
     try {
         if (yargsArgav.production) {
             console.log(

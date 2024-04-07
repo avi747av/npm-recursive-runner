@@ -6,24 +6,21 @@
   "keywords": [
     "install",
     "recursive",
-    "npm install"
+    "npm install",
+    "monorepo install"
   ],
   "scripts": {
-    "test": "mocha",
     "build": "tsc",
     "start": "tsc src/index.ts && node src/index.js --skip dist build"
   },
-  "bin": {
-    "npm-recursive-install": "./recursive-install.js"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/emgeee/recursive-install"
+    "url": "https://github.com/avi747av/npm-recursive-install"
   },
-  "author": "Matt Green <mgreen9@gmail.com> (https://greenin.space)",
+  "author": "Avi Weiss <avi747av@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/emgeee/recursive-install/issues"
+    "url": "https://github.com/avi747av/npm-recursive-install/issues"
   },
   "dependencies": {
     "fast-glob": "^3.3.2",

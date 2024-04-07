@@ -1,15 +1,17 @@
 {
-  "name": "recursive-install",
-  "version": "1.4.1",
+  "name": "npm-recursive-install",
+  "version": "1.0.0",
   "description": "CLI tool to recursive search child directories and run 'npm install' when a package.json file is found.",
-  "main": "recursive-install.js",
+  "main": "src/index.js",
   "keywords": [
     "install",
     "recursive",
     "npm install"
   ],
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "tsc",
+    "start": "tsc src/index.ts && node src/index.js --skip dist build"
   },
   "bin": {
     "npm-recursive-install": "./recursive-install.js"
@@ -24,10 +26,12 @@
     "url": "https://github.com/emgeee/recursive-install/issues"
   },
   "dependencies": {
+    "fast-glob": "^3.3.2",
     "shelljs": "^0.8.4",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
+    "@types/yargs": "^17.0.32",
     "fs-extra": "^10.0.0",
     "mocha": "^9.1.3",
     "ts-node": "^10.9.2",

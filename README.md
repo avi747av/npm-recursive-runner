@@ -1,15 +1,15 @@
-recursive-install [![Build Status](https://travis-ci.org/emgeee/recursive-install.svg?branch=master)](https://travis-ci.org/emgeee/recursive-install)
+npm-recursive-install
 ===
 
 A small utility to recursively run `npm install` in any child directory that has a `package.json` file excluding sub directories of `node_modules`.
 
 Install
 ---
-`$ npm i -g recursive-install`
+`$ npm i recursive-install --save-dev`
 
 Usage
 ---
-`$ npm-recursive-install`
+`$ npm-recursive-install` - will install dependencies recursively except from node_modules
 
 `$ npm-recursive-install --skip-root` - Will not install in `process.cwd()`
 
@@ -17,6 +17,7 @@ Usage
 
 `$ npm-recursive-install --production` - Will not install dev dependencies
 
+`$ npm-recursive-install --skip dist build` - Will skip installing dependencies from the dist and build folders
 
 License
 ---

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import * as path from "path";
-import {execSync} from "child_process";
+import { execSync } from "child_process";
 import { argv, options } from "yargs";
 import * as fg from "fast-glob";
+
 
 options({
     "skip": {
@@ -25,7 +26,7 @@ function getPackageJsonLocations(dirname: string) {
     const skipLocations = (yargsArgav.skip || []).map((dir) => `!**/${dir}`)
     const pattern = ["**/package.json", "!**/node_modules/**", "!**/.*", ...skipLocations];
     const results: string[] = fg.sync(pattern, { cwd: dirname, absolute: true });
-    return results.map((fileName) => path.join(dirname, fileName.replace(/\/package\.json$/, ""))).sort();
+    return results.map((fileName) => fileName.replace(/\/package\.json$/, "")).sort();
 }
 
 function npmInstall(dir: string) {
@@ -35,15 +36,17 @@ function npmInstall(dir: string) {
             console.log(
                 "Installing " + dir + "/package.json with --production option"
             );
-            console.log(`should exec npm i on ${dir}`);
-            execSync("npm install --production", { cwd: dir });
+            const output = execSync("npm install --production", { cwd: dir });
+            console.log(output?.toString() || "")
         } else {
             console.log("Installing " + dir + "/package.json");
-            execSync("npm install", { cwd: dir });
+            const output = execSync("npm install", { cwd: dir, stdio: "inherit" });
+            console.log(output?.toString() || "")
         }
         console.log("");
     } catch (err: any) {
         exitCode = err.status;
+        console.log(`An error occuerred - ${err.message}`)
     }
 
     return {

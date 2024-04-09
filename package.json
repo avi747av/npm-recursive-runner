@@ -10,8 +10,11 @@
     "monorepo install"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && chmod +x dist/index.js",
     "start": "tsc src/index.ts && node src/index.js"
+  },
+  "bin": {
+    "npm-recursive-install":"./dist/index.js"
   },
   "repository": {
     "type": "git",

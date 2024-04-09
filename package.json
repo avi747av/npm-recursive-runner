@@ -1,6 +1,6 @@
 {
   "name": "npm-recursive-install",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CLI tool to recursive search child directories and run 'npm install' when a package.json file is found.",
   "main": "src/index.js",
   "keywords": [
@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "start": "tsc src/index.ts && node src/index.js --skip dist build"
+    "start": "tsc src/index.ts && node src/index.js"
   },
   "repository": {
     "type": "git",
@@ -29,20 +29,6 @@
   "devDependencies": {
     "@types/yargs": "^17.0.32",
     "typescript": "^5.4.4"
-  },
-  "standard": {
-    "ignore": [
-      "public/**",
-      "src/vendor/**"
-    ],
-    "global": [
-      "describe",
-      "before",
-      "after",
-      "beforeEach",
-      "afterEach",
-      "it"
-    ]
   },
   "engines": {
     "node": ">=10"

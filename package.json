@@ -1,6 +1,6 @@
 {
   "name": "npm-recursive-install",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "CLI tool to recursive search child directories and run 'npm install' when a package.json file is found.",
   "main": "dist/index.js",
   "keywords": [

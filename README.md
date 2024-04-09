@@ -5,7 +5,7 @@ A small utility to recursively run `npm install` in any child directory that has
 
 ### Installation
 ---
-`$ npm-recursive-install --save-dev`
+`$ npm i npm-recursive-install --save-dev`
 
 
 ### Options

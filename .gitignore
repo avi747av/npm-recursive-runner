@@ -9,6 +9,7 @@
 *.xcf
 *.db
 .env
+*.js
 
 build
 dist

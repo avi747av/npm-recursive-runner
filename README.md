@@ -13,6 +13,7 @@ A small utility to recursively run `npm install` in any child directory that has
 - `--rootDir <directory>`:  Specify the root directory to start searching for `package.json` files.
 - `--skipRoot`: Skip installation for the root `package.json`.
 - `--skip <directories>`: Skip installation for specific directories.
+- `--addDirectories <directories>`: Add specific directories to install dependencies even they in the skip.
 
 
 Usage
@@ -26,6 +27,9 @@ Usage
 `$ npm-recursive-install --production` - Will not install dev dependencies
 
 `$ npm-recursive-install --skip dist build` - Will skip installing dependencies from the dist and build folders
+
+`$ npm-recursive-install --skip dist build --add dist/test` - Will skip installing dependencies from the dist and build folders but will install on dist/test folder.
+
 
 License
 ---

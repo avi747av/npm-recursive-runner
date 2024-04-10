@@ -9,13 +9,17 @@ import * as fg from "fast-glob";
 options({
     "skip": {
         type: "array"
+    }, 
+    "includeDirectories" :{
+        type: "array"
     }
 })
 interface YargsyargsArgav {
     production?: boolean,
     rootDir?: string,
     skipRoot?: boolean,
-    skip?: string[]
+    skip?: string[],
+    includeDirectories?: string[]
 }
 
 const yargsArgav = argv as YargsyargsArgav
@@ -26,6 +30,8 @@ function getPackageJsonLocations(dirname: string) {
     const skipLocations = (yargsArgav.skip || []).map((dir) => `!**/${dir}`)
     const pattern = ["**/package.json", "!**/node_modules/**", "!**/.*", ...skipLocations];
     const results: string[] = fg.sync(pattern, { cwd: dirname, absolute: true });
+    const includeDirectories = (yargsArgav.includeDirectories||[]).map(directory => path.join(process.cwd(), directory))
+    results.push(...includeDirectories)
     return results.map((fileName) => fileName.replace(/\/package\.json$/, "")).sort();
 }
 

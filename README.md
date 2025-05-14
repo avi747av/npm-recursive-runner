@@ -113,34 +113,13 @@ Run a clean script in parallel across all packages except test packages:
 $ npm-recursive-runner --command="npm run clean" --parallel --skip test-*
 ```
 
-### Package.json Attribution
-
-When publishing your package, include proper attribution in your package.json:
-
-```json
-// package.json example showing proper attribution
-{
-  "name": "npm-recursive-runner",
-  "version": "1.0.0",
-  "description": "Run npm commands recursively across multiple package.json directories",
-  "author": "Your Name",
-  "contributors": [
-    "Matt Green (https://github.com/emgeee)",
-    "Other Contributors"
-  ],
-  "license": "MIT"
-}
-```
-
 ## Origin & Contributors
 
 This package is an enhanced version of [npm-recursive-install](https://github.com/emgeee/recursive-install) originally created by [Matt Green](https://github.com/emgeee), extended with support for custom commands and parallel execution.
 
 ### Contributors
-- [Your Name] - Added custom command support and parallel execution
+- [Avi Weiss] - Added custom command support and parallel execution
 - [Matt Green](https://github.com/emgeee) - Creator of the original npm-recursive-install
-- [Other Contributors] - List any other significant contributors here
-
 ## License
 
 MIT

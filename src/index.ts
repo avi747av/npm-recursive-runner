@@ -26,6 +26,12 @@ options({
     description:
       "Maximum number of concurrent installations when parallel is enabled",
   },
+  command: {
+    type: "string",
+    default: "npm install",
+    description:
+      "Command to execute in each directory (e.g., npm install, npm ci, rm -rf node_modules)",
+  },
 });
 
 interface YargsyargsArgav {
@@ -36,6 +42,7 @@ interface YargsyargsArgav {
   includeDirectories?: string[];
   parallel?: boolean;
   concurrency?: number;
+  command?: string;
 }
 
 const yargsArgav = argv as YargsyargsArgav;
@@ -79,51 +86,18 @@ function chunkArray<T>(array: T[], chunkSize: number): T[][] {
   return chunks;
 }
 
-// function npmInstallAsync(
-//   dir: string
-// ): Promise<{ dirname: string; exitCode: number }> {
-//   return new Promise((resolve) => {
-//     try {
-//       if (yargsArgav.production) {
-//         console.log(
-//           "Installing " + dir + "/package.json with --production option"
-//         );
-//         const command = "npm install --production";
-//
-//         const output = execSync(command, { cwd: dir });
-//         console.log(output?.toString() || "");
-//       } else {
-//         console.log("Installing " + dir + "/package.json");
-//         const command = "npm install";
-//
-//         const output = execSync(command, { cwd: dir, stdio: "inherit" });
-//         console.log(output?.toString() || "");
-//       }
-//       console.log("");
-//       resolve({ dirname: dir, exitCode: 0 });
-//     } catch (err: any) {
-//       const exitCode = err.status;
-//       console.log(`An error occurred - ${err.message}`);
-//       resolve({ dirname: dir, exitCode: exitCode });
-//     }
-//   });
-// }
-
 async function npmInstallAsync(
   dir: string
 ): Promise<{ dirname: string; exitCode: number }> {
-  const command = yargsArgav.production
-    ? "npm install --production"
-    : "npm install";
-  console.log(
-    `Installing ${dir}/package.json${
-      yargsArgav.production ? " with --production option" : ""
-    }`
-  );
-
+  const productionFlag =
+    yargsArgav.production && yargsArgav.command.includes("npm install")
+      ? " --production"
+      : "";
+  const fullCommand = yargsArgav.command + productionFlag;
+  console.log(`Executing ${fullCommand} in ${dir}`);
   try {
     // execPromise returns { stdout, stderr }
-    const { stdout, stderr } = await execPromise(command, { cwd: dir });
+    const { stdout, stderr } = await execPromise(fullCommand, { cwd: dir });
 
     if (stdout) console.log(stdout);
     if (stderr) console.error(stderr);

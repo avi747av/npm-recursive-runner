@@ -1,36 +1,146 @@
-# npm-recursive-install
-===
+# npm-recursive-runner
 
-A small utility to recursively run `npm install` in any child directory that has a `package.json` file excluding sub directories of `node_modules`.
+A powerful utility to recursively run npm commands in any child directory that has a `package.json` file. Formerly known as npm-recursive-install, this enhanced version allows you to run any command (not just `npm install`), with support for parallel execution.
 
-### Installation
----
-`$ npm i npm-recursive-install --save-dev`
+## Features
 
+- Run any npm command recursively across all package.json directories
+- Skip node_modules and other specified directories
+- Parallel execution with configurable concurrency
+- Production mode support for install commands
+- Customizable directory filtering
 
-### Options
-- `--production`:  Install dependencies with the `--production` option - skip dev dependencies.
-- `--rootDir <directory>`:  Specify the root directory to start searching for `package.json` files.
-- `--skipRoot`: Skip installation for the root `package.json`.
-- `--skip <directories>`: Skip installation for specific directories.
-- `--addDirectories <directories>`: Add specific directories to install dependencies even they in the skip.
+## Installation
 
+```bash
+npm install npm-recursive-runner --save-dev
+```
 
-Usage
----
-`$ npm-recursive-install` - will install dependencies recursively except from node_modules directories.
+## Options
 
-`$ npm-recursive-install --skipRoot` - Will not install in `process.cwd()`.
+- `--command <command>`: Specify the command to run in each directory (default: `npm install`)
+- `--production`: When using install commands, add the `--production` flag to skip dev dependencies
+- `--parallel`: Run commands in parallel for faster execution
+- `--concurrency <number>`: Set the maximum number of concurrent processes (default: 4)
+- `--rootDir <directory>`: Specify the root directory to start searching for package.json files
+- `--skipRoot`: Skip execution for the root package.json
+- `--skip <directories>`: Skip execution for specific directories
+- `--includeDirectories <directories>`: Add specific directories for command execution
 
-`$ npm-recursive-install --rootDir=lib` - strat installing dependencies recuresively from the lib directory.
+## Usage Examples
 
-`$ npm-recursive-install --production` - Will not install dev dependencies
+### Basic Usage
 
-`$ npm-recursive-install --skip dist build` - Will skip installing dependencies from the dist and build folders
+Run `npm install` in all package.json directories:
 
-`$ npm-recursive-install --skip dist build --add dist/test` - Will skip installing dependencies from the dist and build folders but will install on dist/test folder.
+```bash
+$ npm-recursive-runner
+```
 
+### Run Custom Commands
 
-License
----
+Run `npm ci` instead of npm install:
+
+```bash
+$ npm-recursive-runner --command="npm ci"
+```
+
+Run a build script in all packages:
+
+```bash
+$ npm-recursive-runner --command="npm run build"
+```
+
+Clean node_modules directories:
+
+```bash
+$ npm-recursive-runner --command="rm -rf node_modules"
+```
+
+### Parallel Execution
+
+Run installations in parallel (4 concurrent processes by default):
+
+```bash
+$ npm-recursive-runner --parallel
+```
+
+Run with custom concurrency level:
+
+```bash
+$ npm-recursive-runner --parallel --concurrency=8
+```
+
+### Filtering Directories
+
+Skip specific directories:
+
+```bash
+$ npm-recursive-runner --skip dist build
+```
+
+Start from a specific directory:
+
+```bash
+$ npm-recursive-runner --rootDir=packages
+```
+
+Skip root directory but process all others:
+
+```bash
+$ npm-recursive-runner --skipRoot
+```
+
+Include specific directories:
+
+```bash
+$ npm-recursive-runner --skip dist --includeDirectories dist/special-package
+```
+
+### Production Mode
+
+Install dependencies without dev dependencies:
+
+```bash
+$ npm-recursive-runner --production
+```
+
+### Combining Options
+
+Run a clean script in parallel across all packages except test packages:
+
+```bash
+$ npm-recursive-runner --command="npm run clean" --parallel --skip test-*
+```
+
+### Package.json Attribution
+
+When publishing your package, include proper attribution in your package.json:
+
+```json
+// package.json example showing proper attribution
+{
+  "name": "npm-recursive-runner",
+  "version": "1.0.0",
+  "description": "Run npm commands recursively across multiple package.json directories",
+  "author": "Your Name",
+  "contributors": [
+    "Matt Green (https://github.com/emgeee)",
+    "Other Contributors"
+  ],
+  "license": "MIT"
+}
+```
+
+## Origin & Contributors
+
+This package is an enhanced version of [npm-recursive-install](https://github.com/emgeee/recursive-install) originally created by [Matt Green](https://github.com/emgeee), extended with support for custom commands and parallel execution.
+
+### Contributors
+- [Your Name] - Added custom command support and parallel execution
+- [Matt Green](https://github.com/emgeee) - Creator of the original npm-recursive-install
+- [Other Contributors] - List any other significant contributors here
+
+## License
+
 MIT

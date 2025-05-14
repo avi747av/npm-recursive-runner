@@ -1,13 +1,26 @@
 {
-  "name": "npm-recursive-install",
-  "version": "1.0.14",
-  "description": "CLI tool to recursive search child directories and run 'npm install' when a package.json file is found.",
+  "name": "npm-recursive-runner",
+  "version": "1.0.0",
+  "description": "Run npm commands recursively across multiple package.json directories with parallel execution support",
   "main": "dist/index.js",
   "keywords": [
     "install",
     "recursive",
     "npm install",
-    "monorepo install"
+    "monorepo install",
+    "npm",
+    "runner",
+    "monorepo",
+    "parallel",
+    "package",
+    "management",
+    "workspace",
+    "dependencies",
+    "batch",
+    "automation",
+    "cli",
+    "npm-runner",
+    "multi-package"
   ],
   "scripts": {
     "build": "tsc && chmod +x dist/index.js",
@@ -20,12 +33,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/avi747av/npm-recursive-install"
+    "url": "https://github.com/avi747av/npm-recursive-runner"
   },
-  "author": "Avi Weiss <avi747av@gmail.com>",
+  "author": "Avi Weiss",
+  "contributors": [
+    "Matt Green"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/avi747av/npm-recursive-install/issues"
+    "url": "https://github.com/avi747av/npm-recursive-runner/issues"
   },
   "dependencies": {
     "fast-glob": "^3.3.2",

@@ -47,7 +47,6 @@ interface YargsyargsArgav {
 
 const yargsArgav = argv as YargsyargsArgav;
 
-console.log({ yargsArgav });
 const noop = (x: string) => x;
 
 function getPackageJsonLocations(dirname: string) {

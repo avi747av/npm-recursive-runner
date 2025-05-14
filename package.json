@@ -10,7 +10,10 @@
     "monorepo install"
   ],
   "scripts": {
-    "build": "tsc && chmod +x dist/index.js"
+    "build": "tsc && chmod +x dist/index.js",
+    "publish:patch": "npm version patch && npm publish",
+    "publish:minor": "npm version minor && npm publish",
+    "publish:major": "npm version major && npm publish"
   },
   "bin": {
     "npm-recursive-install": "./dist/index.js"

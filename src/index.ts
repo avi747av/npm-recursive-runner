@@ -1,29 +1,40 @@
 #!/usr/bin/env node
-
 import * as path from "path";
 import { execSync } from "child_process";
 import { argv, options } from "yargs";
 import * as fg from "fast-glob";
-
+import pLimit from "p-limit"; // You'll need to install this package
 
 options({
     "skip": {
         type: "array"
     }, 
-    "includeDirectories" :{
+    "includeDirectories": {
         type: "array"
+    },
+    "parallel": {
+        type: "boolean",
+        default: false,
+        description: "Run installations in parallel"
+    },
+    "concurrency": {
+        type: "number",
+        default: 4,
+        description: "Maximum number of concurrent installations when parallel is enabled"
     }
 })
+
 interface YargsyargsArgav {
     production?: boolean,
     rootDir?: string,
     skipRoot?: boolean,
     skip?: string[],
-    includeDirectories?: string[]
+    includeDirectories?: string[],
+    parallel?: boolean,
+    concurrency?: number
 }
 
 const yargsArgav = argv as YargsyargsArgav
-
 const noop = (x: string) => x;
 
 function getPackageJsonLocations(dirname: string) {
@@ -52,9 +63,8 @@ function npmInstall(dir: string) {
         console.log("");
     } catch (err: any) {
         exitCode = err.status;
-        console.log(`An error occuerred - ${err.message}`)
+        console.log(`An error occurred - ${err.message}`)
     }
-
     return {
         dirname: dir,
         exitCode: exitCode,
@@ -71,14 +81,48 @@ function filterRoot(dir: string) {
 }
 
 if (require.main === module) {
-    var exitCode = getPackageJsonLocations(
+    const start = Date.now();
+    const directories = getPackageJsonLocations(
         yargsArgav.rootDir ? yargsArgav.rootDir : process.cwd()
-    )
-        .filter(yargsArgav.skipRoot ? filterRoot : noop)
-        .map(npmInstall)
-        .reduce(function (code, result) {
-            return result.exitCode > code ? result.exitCode : code;
-        }, 0);
-    const end = Date.now();
-    process.exit(exitCode);
+    ).filter(yargsArgav.skipRoot ? filterRoot : noop);
+    
+    let results: { dirname: string, exitCode: number }[] = [];
+    
+    if (yargsArgav.parallel) {
+        // Parallel execution
+        const limit = pLimit(yargsArgav.concurrency || 4);
+        
+        const tasks = directories.map(dir => {
+            return limit(() => {
+                console.log(`Starting installation for ${dir}`);
+                return npmInstall(dir);
+            });
+        });
+        
+        Promise.all(tasks)
+            .then(installResults => {
+                const exitCode = installResults.reduce((code, result) => {
+                    return result.exitCode > code ? result.exitCode : code;
+                }, 0);
+                
+                const end = Date.now();
+                console.log(`All installations completed in ${(end - start)/1000} seconds`);
+                process.exit(exitCode);
+            })
+            .catch(err => {
+                console.error("Error running parallel installations:", err);
+                process.exit(1);
+            });
+    } else {
+        // Sequential execution (original behavior)
+        const exitCode = directories
+            .map(npmInstall)
+            .reduce((code, result) => {
+                return result.exitCode > code ? result.exitCode : code;
+            }, 0);
+        
+        const end = Date.now();
+        console.log(`All installations completed in ${(end - start)/1000} seconds`);
+        process.exit(exitCode);
+    }
 }

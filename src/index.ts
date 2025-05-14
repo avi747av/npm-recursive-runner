@@ -84,6 +84,7 @@ function filterRoot(dir: string) {
 
 if (require.main === module) {
     console.log("Args: ", yargsArgav)
+    console.log(yargsArgav.parallel, yargsArgav.concurrency)
     const start = Date.now();
     const directories = getPackageJsonLocations(
         yargsArgav.rootDir ? yargsArgav.rootDir : process.cwd()

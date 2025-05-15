@@ -24,9 +24,9 @@
   ],
   "scripts": {
     "build": "tsc && chmod +x dist/index.js",
-    "publish:patch": "npm version patch && npm publish",
-    "publish:minor": "npm version minor && npm publish",
-    "publish:major": "npm version major && npm publish"
+    "publish:patch": "npm run build && npm version patch && npm publish",
+    "publish:minor": "npm run build && npm version minor && npm publish",
+    "publish:major": "npm run build && npm version major && npm publish"
   },
   "bin": {
     "npm-recursive-install": "./dist/index.js"
@@ -48,6 +48,7 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
+    "@types/node": "^22.15.18",
     "@types/yargs": "^17.0.32",
     "typescript": "^5.4.4"
   },

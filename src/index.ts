@@ -89,7 +89,7 @@ async function npmInstallAsync(
   dir: string
 ): Promise<{ dirname: string; exitCode: number }> {
   const productionFlag =
-    yargsArgav.production && yargsArgav.command.includes("npm install")
+    yargsArgav.production && yargsArgav.command?.includes("npm install")
       ? " --production"
       : "";
   const fullCommand = yargsArgav.command + productionFlag;

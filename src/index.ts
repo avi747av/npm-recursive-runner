@@ -136,7 +136,7 @@ async function runInstallationsInParallel(
   const chunks = chunkArray(directories, concurrency);
 
   for (const chunk of chunks) {
-    console.log(`Starting batch of ${chunk.length} installations...`);
+    console.log(`Starting batch of ${chunk.length} executions...`);
     // Run current batch in parallel
     const batchResults = await Promise.all(
       chunk.map((dir) => npmInstallAsync(dir))
@@ -173,11 +173,11 @@ if (require.main === module) {
 
       const end = Date.now();
       console.log(
-        `All installations completed in ${(end - start) / 1000} seconds`
+        `All executions completed in ${(end - start) / 1000} seconds`
       );
       process.exit(exitCode);
     } catch (err) {
-      console.error("Error running installations:", err);
+      console.error("Error running executions:", err);
       process.exit(1);
     }
   })();
